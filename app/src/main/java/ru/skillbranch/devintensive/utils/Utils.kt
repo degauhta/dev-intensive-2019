@@ -40,7 +40,7 @@ object Utils {
                 in "ц" -> sb.append(if (c.isLowerCase()) "c" else "C")
                 in "ч" -> sb.append(if (c.isLowerCase()) "ch" else "Ch")
                 in "ш" -> sb.append(if (c.isLowerCase()) "sh" else "Sh")
-                in "щ" -> sb.append(if (c.isLowerCase()) "sh" else "Sh")
+                in "щ" -> sb.append(if (c.isLowerCase()) "sh'" else "Sh'")
                 in "ъ" -> sb.append("")
                 in "ы" -> sb.append(if (c.isLowerCase()) "i" else "I")
                 in "ь" -> sb.append("")
@@ -48,6 +48,7 @@ object Utils {
                 in "ю" -> sb.append(if (c.isLowerCase()) "yu" else "Yu")
                 in "я" -> sb.append(if (c.isLowerCase()) "ya" else "Ya")
                 in " " -> sb.append(divider)
+                else -> sb.append(c)
             }
         }
         return sb.toString()
