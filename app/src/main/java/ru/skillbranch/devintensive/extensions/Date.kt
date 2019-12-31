@@ -3,8 +3,6 @@ package ru.skillbranch.devintensive.extensions
 import ru.skillbranch.devintensive.utils.Utils
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.abs
-
 
 const val SECOND = 1000L
 const val MINUTE = 60 * SECOND
@@ -36,25 +34,56 @@ enum class TimeUnits {
 }
 
 fun Date.humanizeDiff(date: Date = Date()): String {
-    val difference = abs(date.time - this.time)
-    val b: Int = (difference / DAY).toInt()
-        println(difference)
+    val difference = (this.time - date.time) / 1000
+
+    val s = 1L
+    val m = 60 * s
+    val h = 60 * m
+    val d = 24 * h
 
     return when (difference) {
-        in 0..SECOND -> "только что"
-        in SECOND..SECOND * 45 -> "несколько секунд назад"
-        in SECOND * 45..SECOND * 75 -> "минуту назад"
-        in SECOND * 75..MINUTE * 45 -> "N минут назад"
-        in MINUTE * 45..MINUTE * 75 -> "час назад"
-        in MINUTE * 75..HOUR * 22 -> "N часов назад"
-        in HOUR * 22..HOUR * 26 -> "день назад"
-        in HOUR * 26..DAY * 360 -> "N дней назад"
-        else -> "более года назад"
+        in 0..s -> "только что"
 
-//        in MINUTE..HOUR -> "${Utils.plural(arrayOf("минута", "минуты", "минут"), (difference / MINUTE).toInt())} назад"
-//        in HOUR..DAY -> "${Utils.plural(arrayOf("час", "часа", "часов"), (difference / HOUR).toInt())} назад"
-//        else -> {
-//            if (b > 365) "более года назад" else "${Utils.plural(arrayOf("день", "дня", "дней"), b)} назад"
-//        }
+        in s..(s * 45) -> "через несколько секунд"
+        in -s downTo (-s * 45) -> "несколько секунд назад"
+
+        in (s * 45)..(s * 75) -> "через минуту"
+        in (-s * 45) downTo (-s * 75) -> "минуту назад"
+
+        in s * 75..m * 45 -> "через ${Utils.plural(
+            arrayOf("минута", "минуты", "минут"),
+            (difference / m).toInt()
+        )}"
+        in (-s * 75) downTo (-m * 45) -> "${Utils.plural(
+            arrayOf("минута", "минуты", "минут"),
+            -(difference / m).toInt()
+        )} назад"
+
+        in m * 45..m * 75 -> "через час"
+        in (-m * 45) downTo (-m * 75) -> "час назад"
+
+        in (m * 75)..(h * 22) -> "через ${Utils.plural(
+            arrayOf("час", "часа", "часов"),
+            (difference / h).toInt()
+        )}"
+        in (-m * 75) downTo (-h * 22) -> "${Utils.plural(
+            arrayOf("час", "часа", "часов"),
+            -(difference / h).toInt()
+        )} назад"
+
+        in h * 22..h * 26 -> "через день"
+        in (-h * 22) downTo (-h * 26) -> "день назад"
+
+        in h * 26..d * 360 -> "через ${Utils.plural(
+            arrayOf("день", "дня", "дней"),
+            (difference / d).toInt()
+        )}"
+
+        in (-h * 26) downTo (-d * 360) -> "${Utils.plural(
+            arrayOf("день", "дня", "дней"),
+            -(difference / d).toInt()
+        )} назад"
+
+        else -> if (difference > 0) "более чем через год" else "более года назад"
     }
 }
