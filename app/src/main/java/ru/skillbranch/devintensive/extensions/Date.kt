@@ -33,6 +33,24 @@ enum class TimeUnits {
     SECOND, MINUTE, HOUR, DAY
 }
 
+fun TimeUnits.plural(counter: Int): String {
+    return when {
+        this == TimeUnits.SECOND -> {
+            Utils.plural(arrayOf("секунду", "секунды", "секунд"), counter)
+        }
+        this == TimeUnits.MINUTE -> {
+            Utils.plural(arrayOf("минута", "минуты", "минут"), counter)
+        }
+        this == TimeUnits.HOUR -> {
+            Utils.plural(arrayOf("час", "часа", "часов"), counter)
+        }
+        this == TimeUnits.DAY -> {
+            Utils.plural(arrayOf("день", "дня", "дней"), counter)
+        }
+        else -> ""
+    }
+}
+
 fun Date.humanizeDiff(date: Date = Date()): String {
     val difference = (this.time - date.time) / 1000
 
