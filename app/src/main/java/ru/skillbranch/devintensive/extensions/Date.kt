@@ -30,24 +30,24 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
 }
 
 enum class TimeUnits {
-    SECOND, MINUTE, HOUR, DAY
-}
+    SECOND, MINUTE, HOUR, DAY;
 
-fun TimeUnits.plural(counter: Int): String {
-    return when {
-        this == TimeUnits.SECOND -> {
-            Utils.plural(arrayOf("секунду", "секунды", "секунд"), counter)
+    fun plural(counter: Int): String {
+        return when {
+            this == SECOND -> {
+                Utils.plural(arrayOf("секунду", "секунды", "секунд"), counter)
+            }
+            this == MINUTE -> {
+                Utils.plural(arrayOf("минута", "минуты", "минут"), counter)
+            }
+            this == HOUR -> {
+                Utils.plural(arrayOf("час", "часа", "часов"), counter)
+            }
+            this == DAY -> {
+                Utils.plural(arrayOf("день", "дня", "дней"), counter)
+            }
+            else -> ""
         }
-        this == TimeUnits.MINUTE -> {
-            Utils.plural(arrayOf("минута", "минуты", "минут"), counter)
-        }
-        this == TimeUnits.HOUR -> {
-            Utils.plural(arrayOf("час", "часа", "часов"), counter)
-        }
-        this == TimeUnits.DAY -> {
-            Utils.plural(arrayOf("день", "дня", "дней"), counter)
-        }
-        else -> ""
     }
 }
 
